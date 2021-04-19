@@ -22,13 +22,9 @@ type Feature struct {
 
 type Properties struct {
 	Name string `json:"P29_005"`
-	// ID      string `json:"P17_002"`
-	// Type    int    `json:"P29_001"`
-	// Address string `json:"P29_006"`
 }
 
 type Geometry struct {
-	// Type        string   `json:"type"`
 	Coordinates []LatLng `json:"coordinates"`
 }
 
@@ -54,7 +50,7 @@ func main() {
 	}
 
 	for i, ft := range fc.Features {
-		_, err = db.Exec(fmt.Sprintf("insert into points (id, data, g) values('%d','%s', ST_GeomFromText('POINT(%f %f)',4326))", i, ft.Properties.Name, ft.Geometory.Coordinates[0], ft.Geometory.Coordinates[1]))
+		_, err = db.Exec(fmt.Sprintf("insert into points (id, data, g) values('%d','%s', ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":[%f,%f]}'))", i, ft.Properties.Name, ft.Geometory.Coordinates[0], ft.Geometory.Coordinates[1]))
 		if err != nil {
 			fmt.Printf("%+v\n", err)
 		}
